@@ -1,0 +1,324 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>YeastiBoi — Sourdough Starter Timer</title>
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  :root {
+    --brown:       #8B5E3C;
+    --brown-dark:  #5C3A1E;
+    --brown-light: #C4834A;
+    --cream:       #FFF8F0;
+    --crust:       #FFF3E0;
+    --text:        #3E2000;
+    --text-soft:   #7A5A3A;
+  }
+
+  body {
+    font-family: 'Segoe UI', Georgia, sans-serif;
+    background: var(--cream);
+    color: var(--text);
+  }
+
+  /* ── LANG TOGGLE ── */
+  .lang-bar {
+    background: var(--brown-dark);
+    text-align: right;
+    padding: 8px 24px;
+  }
+  .lang-bar button {
+    background: none;
+    border: 1px solid rgba(255,255,255,0.4);
+    color: #fff;
+    padding: 4px 12px;
+    border-radius: 20px;
+    cursor: pointer;
+    font-size: 13px;
+    margin-left: 6px;
+    opacity: 0.7;
+    transition: opacity 0.2s;
+  }
+  .lang-bar button.active { opacity: 1; font-weight: 600; }
+
+  /* ── HERO ── */
+  .hero {
+    background: linear-gradient(160deg, var(--brown) 0%, var(--brown-dark) 100%);
+    color: #fff;
+    text-align: center;
+    padding: 64px 24px 72px;
+  }
+  .hero img {
+    width: 120px;
+    height: 120px;
+    border-radius: 28px;
+    margin-bottom: 24px;
+    box-shadow: 0 8px 32px rgba(0,0,0,0.3);
+  }
+  .hero h1 {
+    font-size: 42px;
+    font-weight: 700;
+    letter-spacing: -0.5px;
+    margin-bottom: 12px;
+  }
+  .hero p {
+    font-size: 18px;
+    opacity: 0.85;
+    max-width: 480px;
+    margin: 0 auto 36px;
+    line-height: 1.6;
+  }
+  .hero p.hook {
+    font-size: 16px;
+    opacity: 0.7;
+    margin-bottom: 8px;
+    font-style: italic;
+  }
+  .store-btn {
+    display: inline-block;
+    background: #fff;
+    color: var(--brown-dark);
+    font-weight: 700;
+    font-size: 16px;
+    padding: 14px 32px;
+    border-radius: 32px;
+    text-decoration: none;
+    box-shadow: 0 4px 16px rgba(0,0,0,0.2);
+    transition: transform 0.15s;
+  }
+  .store-btn:hover { transform: translateY(-2px); }
+  .store-note {
+    margin-top: 12px;
+    font-size: 13px;
+    opacity: 0.6;
+  }
+
+  /* ── WAVE ── */
+  .wave {
+    display: block;
+    width: 100%;
+    height: 60px;
+    margin-top: -1px;
+  }
+
+  /* ── SECTIONS ── */
+  section {
+    max-width: 680px;
+    margin: 0 auto;
+    padding: 56px 24px;
+  }
+  section h2 {
+    font-size: 26px;
+    font-weight: 700;
+    color: var(--brown);
+    margin-bottom: 16px;
+  }
+  section p {
+    font-size: 16px;
+    line-height: 1.75;
+    color: var(--text-soft);
+  }
+
+  /* ── HOW IT WORKS ── */
+  .steps {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    margin-top: 28px;
+  }
+  .step {
+    display: flex;
+    gap: 18px;
+    align-items: flex-start;
+    background: var(--crust);
+    border-radius: 16px;
+    padding: 20px;
+  }
+  .step-num {
+    background: var(--brown);
+    color: #fff;
+    font-weight: 700;
+    font-size: 15px;
+    width: 36px;
+    height: 36px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+  }
+  .step-text strong {
+    display: block;
+    font-size: 16px;
+    color: var(--text);
+    margin-bottom: 4px;
+  }
+  .step-text span {
+    font-size: 14px;
+    color: var(--text-soft);
+    line-height: 1.6;
+  }
+
+  /* ── DIVIDER ── */
+  hr { border: none; border-top: 1px solid #EDE0D0; margin: 0 24px; }
+
+  /* ── PRO ── */
+  .pro-box {
+    background: var(--brown);
+    color: #fff;
+    border-radius: 20px;
+    padding: 32px;
+    margin-top: 28px;
+  }
+  .pro-box h3 {
+    font-size: 20px;
+    font-weight: 700;
+    margin-bottom: 16px;
+  }
+  .pro-box ul {
+    list-style: none;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+  }
+  .pro-box li {
+    font-size: 15px;
+    opacity: 0.92;
+    line-height: 1.5;
+    padding-left: 24px;
+    position: relative;
+  }
+  .pro-box li::before {
+    content: '✓';
+    position: absolute;
+    left: 0;
+    font-weight: 700;
+    opacity: 0.75;
+  }
+  .pro-price {
+    margin-top: 20px;
+    font-size: 22px;
+    font-weight: 700;
+    opacity: 0.95;
+  }
+  .pro-price span { font-size: 14px; font-weight: 400; opacity: 0.7; margin-left: 6px; }
+
+  /* ── FOOTER ── */
+  footer {
+    background: var(--brown-dark);
+    color: rgba(255,255,255,0.6);
+    text-align: center;
+    padding: 28px 24px;
+    font-size: 13px;
+    line-height: 1.8;
+  }
+  footer a { color: rgba(255,255,255,0.8); }
+
+  /* ── RESPONSIVE ── */
+  @media (max-width: 480px) {
+    .hero h1 { font-size: 32px; }
+    .hero p  { font-size: 16px; }
+  }
+</style>
+</head>
+<body>
+
+<!-- Language bar -->
+<div class="lang-bar">
+  <button class="active" onclick="setLang('en')">EN</button>
+  <button onclick="setLang('fi')">FI</button>
+</div>
+
+<!-- Hero -->
+<div class="hero">
+  <img src="yb_logo.png" alt="YeastiBoi logo">
+  <h1>YeastiBoi</h1>
+  <p class="hook t" data-en="Sourdough baking is mostly scheduling. Tired of babysitting your starter?" data-fi="Hapanleipailu on enimmäkseen aikatauluttamista. Kyllästynyt vahtimaan juurtasi?"></p>
+  <p class="hook t" data-en="Good things take time, but how much?" data-fi="Hyvät asiat vievät aikaa — mutta kuinka paljon?"></p>
+  <p class="t" data-en="Know when your sourdough starter is ready to bake with." data-fi="Tiedä tarkasti, milloin hapanjuuresi on valmis leivottavaksi."></p>
+  <a href="#" class="store-btn">
+    <span class="t" data-en="Get it on Google Play" data-fi="Lataa Google Playsta"></span>
+  </a>
+  <p class="store-note t" data-en="Coming soon to Google Play" data-fi="Tulossa pian Google Playhin"></p>
+</div>
+
+<svg class="wave" viewBox="0 0 1440 60" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="none">
+  <path d="M0,30 C360,60 1080,0 1440,30 L1440,60 L0,60 Z" fill="#FFF8F0"/>
+</svg>
+
+<!-- How it works -->
+<section>
+  <h2 class="t" data-en="How it works" data-fi="Miten se toimii"></h2>
+  <p class="t"
+    data-en="YeastiBoi uses a fermentation model based on temperature, flour type, and feeding ratio to predict when your starter will hit its peak — the ideal moment to start baking."
+    data-fi="YeastiBoi käyttää käymismallia, joka ottaa huomioon lämpötilan, jauhotypin ja ruokintasuhteen ennustaakseen, milloin juuresi saavuttaa huippunsa — paras hetki aloittaa leivonta.">
+  </p>
+  <div class="steps">
+    <div class="step">
+      <div class="step-num">1</div>
+      <div class="step-text">
+        <strong class="t" data-en="Feed your starter" data-fi="Ruoki juuresi"></strong>
+        <span class="t" data-en="Enter the temperature, flour type, and feeding ratio." data-fi="Syötä lämpötila, jauhotyppi ja ruokintasuhde."></span>
+      </div>
+    </div>
+    <div class="step">
+      <div class="step-num">2</div>
+      <div class="step-text">
+        <strong class="t" data-en="Start the timer" data-fi="Käynnistä ajastin"></strong>
+        <span class="t" data-en="The app predicts when your starter will peak and notifies you." data-fi="Sovellus ennustaa huipun ajankohdan ja ilmoittaa sinulle."></span>
+      </div>
+    </div>
+    <div class="step">
+      <div class="step-num">3</div>
+      <div class="step-text">
+        <strong class="t" data-en="Bake — and teach the app" data-fi="Leivo — ja opeta sovellusta"></strong>
+        <span class="t" data-en="Every bake makes the prediction more accurate for your specific starter." data-fi="Jokainen leivonta tekee ennusteesta tarkemman juuri sinun juurellesi."></span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<hr>
+
+<!-- Pro -->
+<section>
+  <h2 class="t" data-en="Free to use — Pro for €1" data-fi="Ilmainen käyttää — Pro 1 €:lla"></h2>
+  <p class="t"
+    data-en="The core timer and prediction are completely free. Unlock more with a one-time Pro upgrade."
+    data-fi="Ydinajastin ja ennuste ovat täysin ilmaisia. Avaa lisää yhdellä kertamaksulla.">
+  </p>
+  <div class="pro-box">
+    <h3 class="t" data-en="Pro features" data-fi="Pro-ominaisuudet"></h3>
+    <ul>
+      <li class="t" data-en="Multiple starter profiles — track several starters separately" data-fi="Useita juuriprofiileja — käytä useampia juuria erikseen"></li>
+      <li class="t" data-en="Schedule a bake — tell the app when you want to bake, it works out when to activate your starter" data-fi="Suunnittele leivonta — kerro milloin haluat paistaa, sovellus laskee aktivointiajan"></li>
+      <li class="t" data-en="Recipes — save your own or use the built-in Finnish recipes" data-fi="Reseptit — tallenna omia tai käytä valmiita suomalaisia reseptejä"></li>
+    </ul>
+    <p class="pro-price">€1 <span class="t" data-en="one-time purchase" data-fi="kertamaksu"></span></p>
+  </div>
+</section>
+
+<hr>
+
+<!-- Footer -->
+<footer>
+  <p>YeastiBoi &copy; 2026</p>
+  <p><a href="mailto:7omikiljunen@gmail.com">7omikiljunen@gmail.com</a></p>
+</footer>
+
+<script>
+  function setLang(lang) {
+    document.querySelectorAll('.t').forEach(el => {
+      const val = el.dataset[lang];
+      if (val) el.textContent = val;
+    });
+    document.querySelectorAll('.lang-bar button').forEach(b => b.classList.remove('active'));
+    document.querySelector(`.lang-bar button[onclick="setLang('${lang}')"]`).classList.add('active');
+    document.documentElement.lang = lang;
+  }
+  setLang('en');
+</script>
+</body>
+</html>
