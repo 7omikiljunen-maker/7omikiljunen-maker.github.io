@@ -161,6 +161,67 @@
     line-height: 1.6;
   }
 
+  /* ── SCREENSHOTS ── */
+  .screenshots {
+    background: var(--brown-dark);
+    padding: 64px 24px;
+    text-align: center;
+  }
+  .screenshots h2 {
+    font-size: 26px;
+    font-weight: 700;
+    color: #fff;
+    margin-bottom: 8px;
+  }
+  .screenshots .sub {
+    font-size: 15px;
+    color: rgba(255,255,255,0.6);
+    margin-bottom: 48px;
+  }
+  .phone-row {
+    display: flex;
+    justify-content: center;
+    gap: 32px;
+    flex-wrap: wrap;
+  }
+  .phone-wrap {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 16px;
+  }
+  .phone {
+    width: 160px;
+    height: 320px;
+    border: 3px solid rgba(255,255,255,0.25);
+    border-radius: 28px;
+    overflow: hidden;
+    box-shadow: 0 12px 40px rgba(0,0,0,0.5);
+    background: #1a1a1a;
+  }
+  .phone img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: top;
+    display: block;
+  }
+  .caption {
+    color: rgba(255,255,255,0.85);
+    font-size: 13px;
+    font-weight: 600;
+    letter-spacing: 0.3px;
+  }
+  .caption-sub {
+    color: rgba(255,255,255,0.45);
+    font-size: 12px;
+    margin-top: 2px;
+  }
+  @media (max-width: 560px) {
+    .phone-row { gap: 20px; }
+    .phone { width: 120px; height: 240px; }
+  }
+
   /* ── DIVIDER ── */
   hr { border: none; border-top: 1px solid #EDE0D0; margin: 0 24px; }
 
@@ -279,6 +340,45 @@
     </div>
   </div>
 </section>
+
+<!-- Screenshots -->
+<div class="screenshots">
+  <h2 class="t" data-en="See it in action" data-fi="Katso miten se toimii"></h2>
+  <p class="sub t" data-en="Simple inputs, smart predictions." data-fi="Yksinkertaiset syötteet, älykkäät ennusteet."></p>
+  <div class="phone-row">
+
+    <div class="phone-wrap">
+      <div class="phone">
+        <img src="screen_home.png" alt="Home screen">
+      </div>
+      <div>
+        <div class="caption t" data-en="Home" data-fi="Etusivu"></div>
+        <div class="caption-sub t" data-en="Quick access to all features" data-fi="Nopea pääsy kaikkiin toimintoihin"></div>
+      </div>
+    </div>
+
+    <div class="phone-wrap">
+      <div class="phone">
+        <img src="screen_activate.png" alt="Activate starter">
+      </div>
+      <div>
+        <div class="caption t" data-en="Set up" data-fi="Aseta"></div>
+        <div class="caption-sub t" data-en="Temperature, flour &amp; ratio" data-fi="Lämpötila, jauho ja suhde"></div>
+      </div>
+    </div>
+
+    <div class="phone-wrap">
+      <div class="phone">
+        <img src="screen_timer.png" alt="Timer running">
+      </div>
+      <div>
+        <div class="caption t" data-en="Timer" data-fi="Ajastin"></div>
+        <div class="caption-sub t" data-en="Counts down to peak" data-fi="Laskee huippuun"></div>
+      </div>
+    </div>
+
+  </div>
+</div>
 
 <hr>
 
